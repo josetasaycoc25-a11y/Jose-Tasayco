@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Semana 6 | Tres en Raya IA + OpenCV</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="app-shell">
+        <section class="hero-card">
+            <div class="hero-copy">
+                <p class="eyebrow">Inteligencia Artificial · Semana 6</p>
+                <h1>Tres en Raya con IA Invencible</h1>
+                <p class="subtitle">
+                    Motor Minimax con Poda Alfa-Beta, cámara OpenCV liviana y turnos activados por detección facial.
+                </p>
+            </div>
+
+            <div class="status-pill" id="statusPill">
+                <span class="dot"></span>
+                <span id="cameraStatus">Preparando cámara</span>
+            </div>
+        </section>
+
+        <section class="setup-card">
+            <div class="setup-copy">
+                <h2>Configura tu partida</h2>
+                <p>Escribe tu nombre, elige el nivel y empieza el duelo contra la IA.</p>
+            </div>
+
+            <div class="setup-controls">
+                <label>
+                    Nombre del participante
+                    <input id="playerName" type="text" placeholder="Ejemplo: José" maxlength="30">
+                </label>
+
+                <label>
+                    Modo
+                    <select id="difficulty">
+                        <option value="facil">Fácil</option>
+                        <option value="normal">Normal</option>
+                        <option value="imposible" selected>Imposible</option>
+                    </select>
+                </label>
+
+                <button id="startBtn">Iniciar partida</button>
+            </div>
+        </section>
+
+        <section class="layout">
+            <aside class="panel camera-panel">
+                <div class="panel-header">
+                    <div>
+                        <h2>Cámara inteligente</h2>
+                        <p>El navegador muestra el video. Python analiza capturas pequeñas con OpenCV.</p>
+                    </div>
+                    <span class="tag">OpenCV</span>
+                </div>
+
+                <div class="camera-frame">
+                    <video id="cameraVideo" autoplay playsinline muted></video>
+                    <canvas id="overlayCanvas"></canvas>
+
+                    <div class="scanner-line"></div>
+
+                    <div class="camera-overlay">
+                        <span id="faceBadge">Activando cámara...</span>
+                    </div>
+                </div>
+
+                <canvas id="cameraCanvas" width="480" height="360"></canvas>
+
+                <div class="signal-box" id="faceBox">
+                    <div>
+                        <span class="signal-label">Estado visual</span>
+                        <strong id="faceText">Esperando cámara</strong>
+                    </div>
+                    <div class="mini-led"></div>
+                </div>
+
+                <div class="tip-box">
+                    <strong>Tip:</strong> si no detecta, mira de frente, acércate un poco y evita cubrir tu frente u ojos.
+                </div>
+            </aside>
+
+            <section class="game-card">
+                <div class="game-top">
+                    <div>
+                        <h2>Tablero 3×3</h2>
+                        <p id="turnText">Primero inicia la partida</p>
+                    </div>
+                    <button id="resetBtn" class="secondary-btn">Reiniciar</button>
+                </div>
+
+                <div class="player-strip">
+                    <div>
+                        <span>Humano</span>
+                        <strong id="humanName">Jugador</strong>
+                    </div>
+                    <div>
+                        <span>Modo</span>
+                        <strong id="modeName">Imposible</strong>
+                    </div>
+                    <div>
+                        <span>Símbolo</span>
+                        <strong>X vs O</strong>
+                    </div>
+                </div>
+
+                <div class="score-strip">
+                    <div>
+                        <span>Jugador</span>
+                        <strong id="humanScore">0</strong>
+                    </div>
+                    <div>
+                        <span>Empates</span>
+                        <strong id="drawScore">0</strong>
+                    </div>
+                    <div>
+                        <span>IA</span>
+                        <strong id="aiScore">0</strong>
+                    </div>
+                </div>
+
+                <div class="board-wrap">
+                    <div class="board" id="board"></div>
+                </div>
+
+                <div class="message" id="messageBox">
+                    Ingresa tu nombre y presiona Iniciar partida.
+                </div>
+            </section>
+
+            <aside class="panel metrics-panel">
+                <div class="panel-header">
+                    <div>
+                        <h2>Métricas del motor</h2>
+                        <p>Comparación de búsqueda y poda.</p>
+                    </div>
+                    <span class="tag">IA</span>
+                </div>
+
+                <div class="metric-grid">
+                    <div class="metric">
+                        <span>Nodos Minimax puro</span>
+                        <strong id="nodesPure">0</strong>
+                    </div>
+                    <div class="metric">
+                        <span>Nodos Alfa-Beta</span>
+                        <strong id="nodesAB">0</strong>
+                    </div>
+                    <div class="metric">
+                        <span>Podas realizadas</span>
+                        <strong id="cuts">0</strong>
+                    </div>
+                    <div class="metric">
+                        <span>Ahorro estimado</span>
+                        <strong id="saving">0%</strong>
+                    </div>
+                </div>
+
+                <div class="explain">
+                    <h3 id="aiMode">Esperando partida</h3>
+                    <p>
+                        En modo imposible, la IA usa Minimax con Poda Alfa-Beta. Evalúa futuros movimientos, corta ramas innecesarias y mantiene la jugada óptima.
+                    </p>
+                </div>
+
+                <button id="clearScoreBtn" class="wide-btn">Limpiar marcador</button>
+            </aside>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
